@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: secure_app_db
+    environment:
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+      POSTGRES_DB: ${DB_NAME:-secure_app_db}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - secure-network
+
+  backend:
+    build: ./backend
+    container_name: secure_app_backend
+    depends_on:
+      - postgres
+    environment:
+      PORT: 3000
+      DB_HOST: postgres
+      DB_USER: ${DB_USER:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres}
+      DB_NAME: ${DB_NAME:-secure_app_db}
+      JWT_SECRET: ${JWT_SECRET:-dev_secret_key}
+    ports:
+      - "3000:3000"
+    networks:
+      - secure-network
+
+  frontend:
+    build: ./frontend
+    container_name: secure_app_frontend
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+    networks:
+      - secure-network
+
+volumes:
+  postgres_data:
+
+
+networks:
+  secure-network:
+    driver: bridge

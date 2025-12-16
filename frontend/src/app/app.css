@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap');
+
+body, html {
+  margin: 0;
+  padding: 0;
+  background: #f6f8fa;
+  font-family: 'Indie Flower', sans-serif;
+  min-height: 100vh;
+}
+
+.banner {
+  width: 100vw;
+  background: #dddddd;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  padding: 2rem 0 1.5rem 0;
+  text-align: center;
+  position: relative; /* or fixed if you want it always visible */
+  left: 0;
+  top: 0;
+  position: fixed;
+  z-index: 1000;
+}
+
+.banner h1 {
+  font-size: 3rem;
+  margin: 0;
+  color: #222;
+  letter-spacing: 2px;
+  font-family: 'Indie Flower', sans-serif;
+}
+
+.main-content {
+  background: #fff;
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 8rem;
+  font-family: 'Indie Flower', sans-serif;
+}
+
+.center-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+}
+
+footer {
+  text-align: center;
+  padding: 1.5rem 0 1rem 0;
+  color: #888;
+  font-size: 1rem;
+  background: transparent;
+  font-family: 'Indie Flower', sans-serif;
+}
