@@ -1,70 +1,25 @@
-@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap');
-
-form {
-  background: #f9fafb;
-  border-radius: 18px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.07);
-  padding: 2.5rem 2rem 2rem 2rem;
-  margin: 2rem auto 0 auto;
+.password-checklist {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 1rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
   display: flex;
   flex-direction: column;
+  gap: 0.5rem;
+}
+
+.checklist-item {
+  display: flex;
   align-items: center;
-  min-width: 320px;
-  max-width: 350px;
-  font-family: 'Indie Flower', sans-serif;
+  gap: 0.5rem;
+  color: var(--text-gray);
+  transition: color 0.2s;
 }
 
-form h2 {
-  font-size: 2.2rem;
-  margin-bottom: 1.5rem;
-  color: #222;
-  text-align: center;
+.checklist-item.valid {
+  color: var(--success);
 }
 
-form div {
-  margin-bottom: 1.2rem;
-  width: 100%;
-}
-
-label {
-  display: block;
-  margin-bottom: 0.4rem;
+.check-icon {
   font-size: 1.1rem;
-  color: #444;
-}
-
-input[type="email"],
-input[type="password"] {
-  width: 100%;
-  padding: 0.7rem 1rem;
-  border: 1.5px solid #e0e0e0;
-  border-radius: 8px;
-  font-size: 1.1rem;
-  font-family: 'Indie Flower', sans-serif;
-  background: #fff;
-  transition: border 0.2s;
-}
-
-input[type="email"]:focus,
-input[type="password"]:focus {
-  border: 1.5px solid #a3d8f4;
-  outline: none;
-}
-
-button[type="submit"] {
-  background: #4f8cff;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  padding: 0.8rem 2.2rem;
-  font-size: 1.2rem;
-  font-family: 'Indie Flower', sans-serif;
-  cursor: pointer;
-  margin-top: 1rem;
-  box-shadow: 0 2px 8px rgba(79,140,255,0.08);
-  transition: background 0.2s;
-}
-
-button[type="submit"]:hover {
-  background: #2563eb;
 }

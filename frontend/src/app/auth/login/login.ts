@@ -14,6 +14,7 @@ import { AuthService } from '../auth';
 export class Login {
   loginForm: FormGroup;
   error: string = '';
+  showPassword = false;
 
   constructor(private fb: FormBuilder, private router: Router, private authService: AuthService) {
     this.loginForm = this.fb.group({
@@ -22,19 +23,21 @@ export class Login {
     });
   }
 
+  toggleVisibility() {
+    this.showPassword = !this.showPassword;
+  }
+
   onSubmit() {
     if (this.loginForm.valid) {
       this.authService.login(this.loginForm.value).subscribe({
         next: (data: any) => {
           if (data.success) {
-            // Store username in localStorage for use on home page
-            localStorage.setItem('username', data.username);
             this.router.navigate(['/home']);
           } else {
             this.error = data.message || 'Login failed.';
           }
         },
-        error: (err) => {
+        error: (err: any) => {
           this.error = err.error?.message || 'Login failed.';
         }
       });
@@ -42,6 +45,7 @@ export class Login {
   }
 
   goToRegister() {
+    this.loginForm.reset();
     this.router.navigate(['/register']);
   }
 }

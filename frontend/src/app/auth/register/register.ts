@@ -1,23 +1,25 @@
+
 import { Component, OnInit } from '@angular/core';
-//import ReactiveFormsModule
-import {FormBuilder, FormGroup, Validators, ReactiveFormsModule} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../auth';
 import { Router } from '@angular/router';
-// 
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [
-    ReactiveFormsModule
-  ],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './register.html',
   styleUrl: './register.css'
 })
-
 export class RegisterComponent implements OnInit {
-  // The rest of the code from Step 4 remains exactly the same!
   registerForm!: FormGroup;
+  showPassword = false;
+
+  // Password Strength State
+  hasMinLength = false;
+  hasUpperCase = false;
+  hasSpecialChar = false;
 
   constructor(
     private fb: FormBuilder,
@@ -27,40 +29,55 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
     this.registerForm = this.fb.group({
+      name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      password: ['', [Validators.required]]
+    });
+
+    // Real-time password validation
+    this.registerForm.get('password')?.valueChanges.subscribe((val: string | null) => {
+      this.checkPasswordStrength(val || '');
     });
   }
 
+  checkPasswordStrength(password: string) {
+    this.hasMinLength = password.length >= 8;
+    this.hasUpperCase = /[A-Z]/.test(password);
+    this.hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+  }
+
+  get isPasswordValid(): boolean {
+    return this.hasMinLength && this.hasUpperCase && this.hasSpecialChar;
+  }
+
+  toggleVisibility() {
+    this.showPassword = !this.showPassword;
+  }
+
   onSubmit(): void {
-    if (this.registerForm.invalid) {
+    if (this.registerForm.invalid || !this.isPasswordValid) {
       return;
     }
+
     this.authService.register(this.registerForm.value).subscribe({
       next: (response: any) => {
-        // On successful registration, log in the user automatically
         this.authService.login(this.registerForm.value).subscribe({
           next: (data: any) => {
             if (data.success) {
-              localStorage.setItem('username', data.username);
               this.router.navigate(['/home']);
-            } else {
-              alert(data.message || 'Login failed.');
             }
           },
-          error: (err) => {
-            alert(err.error?.message || 'Login failed.');
-          }
+          error: (err: any) => alert('Auto-login failed.')
         });
       },
-      error: (err) => {
-        // Handle error (show message, etc.)
-        alert('Registration failed! ' + (err.error?.message || ''));
+      error: (err: any) => {
+        alert('Registration failed! ' + (err.error?.message || err.message));
       }
     });
   }
 
   goToLogin(): void {
+    this.registerForm.reset();
     this.router.navigate(['/login']);
   }
 }
