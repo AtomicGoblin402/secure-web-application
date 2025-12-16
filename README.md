@@ -86,6 +86,3 @@ secure-web-application/
 -   **JWT Secret**: In production, ensure `JWT_SECRET` is a strong, random string set in the environment variables.
 -   **Database Passwords**: Do not commit actual passwords to version control. Use `.env` files (excluded by `.gitignore`).
 
-## License
-
-This project is open source and available under the [MIT License](LICENSE).
